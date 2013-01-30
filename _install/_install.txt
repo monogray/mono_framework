@@ -1,0 +1,13 @@
+Сайт
+
+Структура:
+[site_core]
+	site_settings.php
+index.php
+site_layout.php
+
+все настройки в файле connect.php
+
+
+Сделано
+SiteSettings - УДАЛИТЬ
