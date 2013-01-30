@@ -38,8 +38,12 @@ class Div {
 		return $this;
 	}
 	
-	public function drawFooter() {
+	public function drawFooter($_locator_name_for_convenience='') {
 		echo '</div>';
 		return $this;
+	}
+	
+	static public function drawFooter_st($_locator_name_for_convenience='') {
+		echo '</div>';
 	}
 }
