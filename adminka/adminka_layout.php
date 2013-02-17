@@ -29,7 +29,6 @@ class AdminkaLayot {
 				<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 						
 						
-
 				<!-- TinyMCE -->
 			<script type="text/javascript" src="../js/tiny_mce/tiny_mce.js"></script>
 			<script type="text/javascript">
@@ -83,8 +82,6 @@ class AdminkaLayot {
 			<!-- jQuery UI -->
 			<script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js" type="text/javascript" charset="utf-8"></script>
 			<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" type="text/css" media="screen" charset="utf-8">
-						
-				
 						
 			
 				<script type="text/javascript" charset="utf-8">
@@ -214,6 +211,7 @@ class AdminkaLayot {
 	}
 	
 	function DrawMainArea() {
+		echo'<div><a href="?chapter=logout">logout</a></div>';
 		echo'<div>Язык: || <a href="?chapter=too_ru" title="Произойдет возврат на главную страницу">RU</a> || <a href="?chapter=too_en" title="Произойдет возврат на главную страницу">EN</a> ||</div>';
 		echo'<h1>Админка</h1>';
 		

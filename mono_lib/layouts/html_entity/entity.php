@@ -1,12 +1,13 @@
 <?php
 class Entity {
-	static public $instance = null;
+	static public $instance		= null;
 	
+	private $entity_layout_type	= 'closed';	// closed | self_closed. With closed tag or without
 	private $entity_type;
 	private $locator_type;
 	private $locator_name;
 	
-	private $attrs = Array();
+	private $attrs				= Array();
 	
 	private $content;
 	
@@ -17,10 +18,11 @@ class Entity {
 		return new Entity();
 	}
 	
-	static public function getInstance(){
+	static public function inst(){
 		if(self::$instance == null){
 			self::$instance = new self();
 		}else{
+			self::$instance->entity_layout_type	= 'closed';
 			self::$instance->entity_type = '';
 			self::$instance->locator_type = '';
 			self::$instance->locator_name = '';
@@ -30,7 +32,8 @@ class Entity {
 		return self::$instance;
 	}
 	
-	public function init($_entity_type, $_locator_type='', $_locator_name='') {
+	public function init($_entity_type, $_locator_type='', $_locator_name='', $_entity_layout_type='closed') {
+		$this->entity_layout_type = $_entity_layout_type;
 		$this->entity_type = $_entity_type;
 		$this->locator_type = $_locator_type;
 		$this->locator_name = $_locator_name;
@@ -41,10 +44,6 @@ class Entity {
 		if( is_string($_content) ){
 			$this->content = $_content;
 		}else if( get_class($_content) == 'Entity' ){
-			//if(!is_array($this->content))
-				//$this->content = Array();
-			//$this->content[] = $_content;
-			//array_push($this->content, $_content);
 			$this->content = Array();
 			$this->content[0] = $_content;
 		}
@@ -57,7 +56,6 @@ class Entity {
 		}else if( get_class($_content) == 'Entity' ){
 			if(!is_array($this->content))
 				$this->content = Array();
-			//$this->content[] = $_content;
 			array_push($this->content, $_content);
 		}
 		return $this;
@@ -77,7 +75,7 @@ class Entity {
 		$res = '';
 		$attrs = '';
 		foreach ($this->attrs as $key => $value)
-			$attrs .= "$key=$value ";
+			$attrs .= "$key='$value' ";
 	
 		$content = '';
 		if( is_string($this->content) ){
@@ -91,11 +89,17 @@ class Entity {
 			}
 		}
 	
-		if($this->locator_type != '')
-			$res = '<'.$this->entity_type.' '.$this->locator_type.'='.$this->locator_name.' '.$attrs.'>'.$content.'</'.$this->entity_type.'>';
-		else
-			$res = '<'.$this->entity_type.'>'.$content.'</'.$this->entity_type.' '.$attrs.'>';
-	
+		if($this->entity_layout_type == 'closed'){
+			if($this->locator_type != '')
+				$res = '<'.$this->entity_type.' '.$this->locator_type.'="'.$this->locator_name.'" '.$attrs.'>'.$content.'</'.$this->entity_type.'>';
+			else
+				$res = '<'.$this->entity_type.' '.$attrs.'>'.$content.'</'.$this->entity_type.'>';
+		}else if($this->entity_layout_type == 'self_closed'){
+			if($this->locator_type != '')
+				$res = '<'.$this->entity_type.' '.$this->locator_type.'="'.$this->locator_name.'" '.$attrs.'/>';
+			else
+				$res = '<'.$this->entity_type.' '.$attrs.'/>';
+		}
 		return $res;
 	}
 	
@@ -105,7 +109,7 @@ class Entity {
 			$attrs .= "$key=$value ";
 		
 		if($this->locator_type != '')
-			echo '<'.$this->entity_type.' '.$this->locator_type.'='.$this->locator_name.' '.$attrs.'>';
+			echo '<'.$this->entity_type.' '.$this->locator_type.'="'.$this->locator_name.'" '.$attrs.'>';
 		else
 			echo '<'.$this->entity_type.' '.$attrs.'>';
 		return $this;
@@ -121,7 +125,9 @@ class Entity {
 		return $this;
 	}
 	
-	static public function drawFooter_st($_locator_name_for_convenience='') {
-		echo '</'.$this->entity_type.'>';
+	static public function drawFooter_st($_locator_type_for_convenience='', $_locator_name_for_convenience='') {
+		if($_locator_type_for_convenience != '')
+			self::$instance->entity_type = $_locator_type_for_convenience;
+		echo '</'.self::$instance->entity_type.'>';
 	}
 }

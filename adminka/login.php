@@ -16,6 +16,10 @@ class UserData {
 		//$this->checkIsLogined();
 	}
 	
+	function logOut() {
+		$_SESSION['user_logined'] = "";
+	}
+	
 	function checkIsLogined() {
 		if( $_SESSION['user_logined'] != null && $_SESSION['user_logined'] != "" ){
 			$this->userLogin = $_SESSION['user_logined'];
