@@ -1,13 +1,13 @@
 <?php
 class Entity {
-	static public $instance		= null;
+	static public $instance			= null;
 	
-	private $entity_layout_type	= 'closed';	// closed | self_closed. With closed tag or without
+	private $entity_layout_type		= 'closed';	// closed | self_closed. With closed tag or without
 	private $entity_type;
 	private $locator_type;
 	private $locator_name;
 	
-	private $attrs				= Array();
+	private $attrs					= Array();
 	
 	private $content;
 	
@@ -123,6 +123,16 @@ class Entity {
 	public function drawFooter($_locator_name_for_convenience='') {
 		echo '</'.$this->entity_type.'>';
 		return $this;
+	}
+	
+	static public function initAndDrawHeader_st($_entity_type, $_locator_type='', $_locator_name='', $_entity_layout_type='closed') {
+		self::inst()->init($_entity_type, $_locator_type, $_locator_name, $_entity_layout_type)->drawHeader();
+	}
+	
+	static public function initAndAddContentAndDraw_st($_entity_type, $_locator_type='', $_locator_name='', $_entity_layout_type='closed', $_content='') {
+		self::inst()->init($_entity_type, $_locator_type, $_locator_name, $_entity_layout_type)
+			->addContent($_content)
+			->draw();
 	}
 	
 	static public function drawFooter_st($_locator_type_for_convenience='', $_locator_name_for_convenience='') {
